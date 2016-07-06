@@ -1,0 +1,54 @@
+<div ng-controller="betController">
+    <div class="container">
+        <h2>Place Bet</h2>
+        <form name="betForm" ng-submit="submitForm()" novalidate>
+            <div class="form-group"
+                 ng-class="{ 'has-error' : betForm.winner.$invalid && !betForm.winner.$pristine}">
+                <span>Select a winner:</span>
+                <label>
+                    <input type="radio"
+                           name="winner"
+                           required />
+                    Tim
+                </label>
+                <label>
+                    <input type="radio"
+                           name="winner"
+                           required />
+                    Trolley
+                </label>
+                <p class="help-block"
+                   ng-show="betForm.winner.$invalid && !betForm.winner.$pristine">
+                    Please select a winner
+                </p>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error' : betForm.comments.$invalid && !betForm.comments.$pristine}">
+                <label>Comments</label>
+                <textarea class="form-control"
+                          name="comments"
+                          rows="5"
+                          ng-model="" />
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error' : betForm.name.$invalid && !betForm.name.$pristine}">
+                <label>Name</label>
+                <input class="form-control"
+                       type="text"
+                       name="name"
+                       ng-model=""
+                       required />
+                <p class="help-block"
+                   ng-show="betForm.name.$invalid && !betForm.name.$pristine" >
+                    A name is required
+                </p>
+            </div>
+
+            <input class="btn btn-info"
+                   type="submit"
+                   name="Submit">
+        </form>
+    </div>
+</div>
