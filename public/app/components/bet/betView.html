@@ -1,54 +1,46 @@
 <div ng-controller="betController">
+
     <div class="container">
         <h2>Place Bet</h2>
-        <form name="betForm" ng-submit="submitForm()" novalidate>
-            <div class="form-group"
-                 ng-class="{ 'has-error' : betForm.winner.$invalid && !betForm.winner.$pristine}">
-                <span>Select a winner:</span>
-                <label>
-                    <input type="radio"
-                           name="winner"
-                           required />
-                    Tim
-                </label>
-                <label>
-                    <input type="radio"
-                           name="winner"
-                           required />
-                    Trolley
-                </label>
-                <p class="help-block"
-                   ng-show="betForm.winner.$invalid && !betForm.winner.$pristine">
-                    Please select a winner
-                </p>
+        <form name="betForm" ng-submit="submitForm(betForm.$valid)" novalidate>
+
+            <div class="form-group" ng-class="{ 'has-error': betForm.email.$touched && betForm.email.$invalid }">
+                <label>Your Email Address</label>
+                <input class="form-control" type="email" name="email" ng-model="betinfo.email" required />
+                <div class="help-block" ng-messages="betForm.email.$error" ng-if="betForm.email.$touched">
+                    <p ng-message="required">Your Email Address is required fool!</p>
+                    <p ng-message="email">A valid Email sucka!</p>
+                </div>
             </div>
 
-            <div class="form-group"
-                 ng-class="{ 'has-error' : betForm.comments.$invalid && !betForm.comments.$pristine}">
+            <div class="form-group" ng-class="{ 'has-error': betForm.winner.$touched && betForm.winner.$invalid }">
+                <label>Select a winner:</label>
+                <div>
+                    <label><input type="radio" name="winner" value="tim" required ng-model="betinfo.winner" />Tim</label>
+                    <label><input type="radio" name="winner" value="trolley" required ng-model="betinfo.winner" />Trolley</label>
+                    <div class="help-block" ng-messages="betForm.winner.$error">
+                        <p ng-message="required">Please select a winner</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label>Comments</label>
-                <textarea class="form-control"
-                          name="comments"
-                          rows="5"
-                          ng-model="" />
+                <textarea class="form-control" name="comments" rows="4" ng-model="betinfo.comments" />
             </div>
 
-            <div class="form-group"
-                 ng-class="{ 'has-error' : betForm.name.$invalid && !betForm.name.$pristine}">
+            <div class="form-group" ng-class="{ 'has-error': betForm.name.$touched && betForm.name.$invalid }">
                 <label>Name</label>
-                <input class="form-control"
-                       type="text"
-                       name="name"
-                       ng-model=""
-                       required />
-                <p class="help-block"
-                   ng-show="betForm.name.$invalid && !betForm.name.$pristine" >
-                    A name is required
-                </p>
+                <input class="form-control" type="text" name="name" ng-model="betinfo.name" required />
+                <div class="help-block" ng-messages="betForm.name.$error">
+                    <p ng-message="required">A name is required</p>
+                </div>
             </div>
 
-            <input class="btn btn-info"
-                   type="submit"
-                   name="Submit">
+            <button type="submit" name="Submit" class="btn btn-primary" ng-disabled="betForm.$invalid">
+                Submit
+            </button>
+            <a href="#/" class="btn btn-danger">Cancel</a>
         </form>
     </div>
 </div>

@@ -1,7 +1,11 @@
 <div ng-controller="homeController">
     <div class="container">
+        <div class="page-header">
+            <h1>Tim Vs. The Trolley</h1>
+        </div>
+
         <p class="lead">
-            Last year I participated in the Man Vs. Machine challenge in the Human Race in Fort Collins CO.  I finished 65th
+            Last year I ran the Man Vs. Machine challenge in the Human Race in Fort Collins CO.  I finished 65th
             overall with a time of 23:50.  While this was a great time I was not fast enough to beat the trolley.
         </p>
         <p class="lead">
@@ -10,31 +14,42 @@
             co-workers to place their bets and also share their wonderful reasoning behind their bet.
         </p>
 
-        <h3>Current Bets on me</h3>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>
+                    Current Bets on me
+                    <a href="/#/placebet" class="btn btn-warning pull-right">Place Bet</a>
+                </h4>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Tim Wins</th>
-                    <th>Trolley Wins</th>
-                    <th>Comments</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>X</td>
-                    <td></td>
-                    <td>Comment One</td>
-                    <td>Joe</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>X</td>
-                    <td>Comment Two</td>
-                    <td>Bob</td>
-                </tr>
-            </tbody>
-        </table>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tim Wins</th>
+                        <th>Trolley Wins</th>
+                        <th>Comments</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>X</td>
+                        <td></td>
+                        <td>Comment One</td>
+                        <td>Joe</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>X</td>
+                        <td>Comment Two</td>
+                        <td>Bob</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+    </div>
     </div>
 </div>
