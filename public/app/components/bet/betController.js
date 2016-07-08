@@ -1,4 +1,4 @@
-trollyApp.controller('betController', ['$scope',
+trolleyApp.controller('betController', ['$scope',
     function ($scope) {
         
         $scope.submitForm = function (isValid) {

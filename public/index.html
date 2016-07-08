@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tim VS. Trolly</title>
+    <title>Tim Vs. Machine</title>
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="app/assets/css/app.css" />
 </head>
-<body ng-app="trollyApp">
+<body ng-app="trolleyApp">
 
     <div ng-view></div>
 
@@ -19,7 +20,9 @@
 
     <script type="text/javascript" src="app.module.js"></script>
     <script type="text/javascript" src="app.routes.js"></script>
-    <script type="text/javascript" src="app/components/home/homeController.js"></script>
+    <script type="text/javascript" src="app/services/outcome/outcomeService.js"></script>
+    <script type="text/javascript" src="app/components/landing/landingController.js"></script>
     <script type="text/javascript" src="app/components/bet/betController.js"></script>
+    <script type="text/javascript" src="app/components/results/resultsController.js"></script>
 </body>
 </html>

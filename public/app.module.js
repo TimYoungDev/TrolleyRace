@@ -1,1 +1,1 @@
-var trollyApp = angular.module('trollyApp', ['ngRoute', 'ngMessages']);
+var trolleyApp = angular.module('trolleyApp', ['ngRoute', 'ngMessages']);
