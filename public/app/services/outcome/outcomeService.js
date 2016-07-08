@@ -1,8 +1,9 @@
 trolleyApp.service('outcomeService', ['$http', 
     function ($http) {
         
-        var getOutcomesForYear = function (year) {
-            return [
+        var getOutcomesForYear = function (year, successHandler, errorHandler) {
+            
+            var data = [
                 {
                     name: "Tom",
                     winner: "Trolley",
@@ -19,14 +20,17 @@ trolleyApp.service('outcomeService', ['$http',
                     comments: "Gawking at six pack abs"
                 }
             ];
+            
+            successHandler(data);
         };
         
-        var updateOutcome = function (outcomeInfo) {
-            
+        var updateOutcome = function (outcomeInfo, successHandler, errorHandler) {
+            errorHandler("Messed up!");
         };
         
         return {
-            getOutcomesForYear: getOutcomesForYear
+            getOutcomesForYear: getOutcomesForYear,
+            updateOutcome: updateOutcome
         }
     }
 ]);

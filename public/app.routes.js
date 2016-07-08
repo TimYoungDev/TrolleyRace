@@ -9,7 +9,7 @@ trolleyApp.config(['$routeProvider',
                 templateUrl: 'app/components/bet/betView.html',
                 controller: 'betController'
             })
-            .when('/results', {
+            .when('/results/:year', {
                 templateUrl: 'app/components/results/resultsView.html',
                 controller: 'resultsController'
             })

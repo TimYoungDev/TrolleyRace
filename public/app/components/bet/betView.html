@@ -14,6 +14,10 @@
 
                     <form name="betForm" ng-submit="submitForm(betForm.$valid)" novalidate>
 
+                        <div class="help-block has-error" ng-if="errorText != null">
+                            <h3>There was as error: {{errorText}}</h3>
+                        </div>
+
                         <div class="form-group" ng-class="{ 'has-error': betForm.name.$touched && betForm.name.$invalid }">
                             <label>Name/Alias</label>
                             <input class="form-control" type="text" name="name" ng-model="betinfo.name" required />
