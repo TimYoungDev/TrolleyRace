@@ -1,53 +1,32 @@
 var app = require('../../app');
-var mongoose = require('mongoose');
+var mongoClient = require('mongodb').MongoClient;
 
 var trolleyRaceDb = function () {
 
-    var Outcome = mongoose.model('Outcome', { name: String, winner: String, comments: String, email: String });
-
-    var addTestData = function () {
-        mongoose.connect(app.settings['db_url']);
-        
-        var outcome1 = new Outcome({name: '', winner: '', comments: '', email: 'Tim@stuff.com'});
-        var outcome2 = new Outcome({name: '', winner: '', comments: '', email: 'Sela@stuff.com'})
-        
-        outcome1.save(function (err, outcomeObj) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Success: ', outcomeObj);
-            }
-        });
-
-        outcome2.save(function (err, outcomeObj) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Success: ', outcomeObj);
-            }
-        });
-        
-        mongoose.close();
-    };
-    
+    const url = 'mongodb://localhost:27017/trolley_race';
+    const outcomes_table = 'outcomes';
     /**
-     * Returns a list of email addresses currently in the Outcome table.
+     * Returns a list of all outcomes currently in the Outcome table.
      * 
-     * @param successCallback Success handler function
-     * @param errorCallback Error handler function
+     * @param resultCallback Result handler function.  resultCallback(error, results)  
      */
-    var getEmailList = function (successCallback, errorCallback) {
+    var getOutcomeList = function (resultCallback) {
         
-        var db = mongoose.connect(app.settings['db_url']);
-        
-        Outcome.find({}, function (error, results) {
+        mongoClient.connect(url, function (error, db) {
             if (error) {
-                errorCallback(error);
+                resultCallback(error, null);
+            } else {
+                var collection = db.collection(outcomes_table);
+                collection.find({}).toArray(function (error, results) {
+                    if (error) {
+                        resultCallback(error, null);
+                    } else {
+                        resultCallback(null, results);
+                    }
+                });
+                db.close();
             }
-
-            successCallback(results);
         });
-        db.disconnect();
     };
     
     /**
@@ -55,15 +34,31 @@ var trolleyRaceDb = function () {
      * info.
      *
      * @param outcome The outcome to be updated
+     * @param resultCallback Result handler function.  resultCallback(error, results)
      */
-    var updateOutcome = function (outcome) {
+    var updateOutcome = function (outcome, resultCallback) {
         
+        mongoClient.connect(url, function (error, db) {
+            if (error) {
+                resultCallback(error, null);
+            } else {
+                var collection = db.collection(outcomes_table);
+                collection.update({email: outcome.email}, {$set: outcome}, function (error, count) {
+                    if (error) {
+                        resultCallback(error, null);
+                    } else {
+                        resultCallback(null, count);
+                    }
+                });
+                db.close();
+            }
+        });
     };
     
     
     return {
-        seedTestData: addTestData,
-        getEmailList: getEmailList
+        getOutcomeList: getOutcomeList,
+        updateOutcome: updateOutcome
     };
 };
 

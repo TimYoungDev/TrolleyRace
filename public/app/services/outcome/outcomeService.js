@@ -2,30 +2,17 @@ trolleyApp.service('outcomeService', ['$http',
     function ($http) {
         
         var getOutcomesForYear = function (year, successHandler, errorHandler) {
-            
-            var data = [
-                {
-                    name: "Tom",
-                    winner: "Trolley",
-                    comments: "Will fall over"
-                },
-                {
-                    name: "Dick",
-                    winner: "Tim",
-                    comments: "squirrel in power line."
-                },
-                {
-                    name: "Harry",
-                    winner: "Trolley",
-                    comments: "Gawking at six pack abs"
+            $http.get('http://localhost:3000/api/outcome').then(function (response) {
+                if (response.data.hasError) {
+                    errorHandler(response.data.message);
+                } else {
+                    successHandler(response.data.data);
                 }
-            ];
-            
-            successHandler(data);
+            });
         };
         
         var updateOutcome = function (outcomeInfo, successHandler, errorHandler) {
-            errorHandler("Messed up!");
+            
         };
         
         return {
