@@ -1,7 +1,6 @@
 "use strict";
-var trolleyRaceDb = require('../../app.services/database/trolleyRaceDb')();
 
-var outcomeController = function () {
+var outcomeController = function (trolleyRaceDb) {
 
     /**
      * Gets a list of all email addresses.
@@ -18,7 +17,7 @@ var outcomeController = function () {
             
             var i, addresses = [];
             for (i = 0; i < result.length; i += 1) {
-                addresses.push(result[i].email);
+                addresses.push(result[i].email.toLowerCase());
             }
             
             responseHandler({hasError: false, data: addresses});
@@ -72,6 +71,17 @@ var outcomeController = function () {
      *  response: {hasError: (true|false), message: (error only), data: (success only)}
      */
     var updateOutcome = function (outcome, responseHandler) {
+        if (outcome.name.length > 20) {
+            responseHandler({hasError: true, message: 'name is too long (20 max)'});
+            return;
+        }
+        
+        if (outcome.comments.length > 300) {
+            responseHandler({hasError: true, message: 'comments are too long (300 max)'});
+            return;
+        }
+        
+        outcome.email = outcome.email.toLowerCase();
         if (emailAddressIndex(outcome.email) === -1) {
             responseHandler({hasError: true, message: outcome.email + ' was not found.'});
             return;
@@ -86,8 +96,7 @@ var outcomeController = function () {
             responseHandler({hasError: false, data: result});
         });
     };
-    
-    
+        
     return {
         getEmailAddressList: getEmailList,
         getOutcomeList: getOutcomeList,

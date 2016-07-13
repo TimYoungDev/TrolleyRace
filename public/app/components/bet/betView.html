@@ -20,9 +20,10 @@
 
                         <div class="form-group" ng-class="{ 'has-error': betForm.name.$touched && betForm.name.$invalid }">
                             <label>Name/Alias</label>
-                            <input class="form-control" type="text" name="name" ng-model="betinfo.name" required />
+                            <input class="form-control" type="text" name="name" ng-model="betinfo.name" required ng-maxlength="20" />
                             <div class="help-block" ng-messages="betForm.name.$error">
                                 <p ng-message="required">A name or alias is required</p>
+                                <p ng-message="maxlength">Name/Alias is too long (20 char max)</p>
                             </div>
                         </div>
 
@@ -37,9 +38,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': betForm.comments.$touched && betForm.comments.$invalid }">
                             <label>Comments</label>
-                            <textarea class="form-control" name="comments" rows="4" ng-model="betinfo.comments" />
+                            <textarea class="form-control" name="comments" rows="4" ng-model="betinfo.comments" ng-maxlength="300" />
+                            <div class="help-block" ng-messages="betForm.comments.$error">
+                                <p ng-message="maxlength">Comment is too long (300 char max)</p>
+                            </div>
                         </div>
 
                         <div class="form-group" ng-class="{ 'has-error': betForm.email.$touched && betForm.email.$invalid }">

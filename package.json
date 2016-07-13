@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test-db": "jasmine-node app.services.test"
+    "test-back": "jasmine-node app.test"
   },
   "dependencies": {
     "body-parser": "~1.15.1",

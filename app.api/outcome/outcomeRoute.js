@@ -1,7 +1,8 @@
 "use strict"
 var express = require('express');
 var router = express.Router();
-var outcomeController = require('./outcomeController')();
+var trolleyRaceDb = require('../../app.services/database/trolleyRaceDb')();
+var outcomeController = require('./outcomeController')(trolleyRaceDb);
 
 router.get('/email_list', function (req, res) {
     outcomeController.getEmailAddressList(function (response) {
