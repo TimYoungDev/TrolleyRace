@@ -1,4 +1,3 @@
-var app = require('../../app');
 var mongoClient = require('mongodb').MongoClient;
 
 var trolleyRaceDb = function () {
@@ -18,13 +17,13 @@ var trolleyRaceDb = function () {
             } else {
                 var collection = db.collection(outcomes_table);
                 collection.find({}).toArray(function (error, results) {
+                    db.close();
                     if (error) {
                         resultCallback(error, null);
                     } else {
                         resultCallback(null, results);
                     }
                 });
-                db.close();
             }
         });
     };
@@ -43,14 +42,16 @@ var trolleyRaceDb = function () {
                 resultCallback(error, null);
             } else {
                 var collection = db.collection(outcomes_table);
-                collection.update({email: outcome.email}, {$set: outcome}, function (error, count) {
+                collection.update({email: outcome.email}, {$set: outcome}, function (error, updateResult) {
+                    db.close();
                     if (error) {
                         resultCallback(error, null);
+                    } else if (updateResult.result.nModified === 0) {
+                        resultCallback("Email " + outcome.email + " was not found", null);
                     } else {
-                        resultCallback(null, count);
+                        resultCallback(null, updateResult);
                     }
                 });
-                db.close();
             }
         });
     };
