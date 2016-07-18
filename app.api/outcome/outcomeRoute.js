@@ -4,11 +4,12 @@ var router = express.Router();
 var trolleyRaceDb = require('../../app.services/database/trolleyRaceDb')();
 var outcomeController = require('./outcomeController')(trolleyRaceDb);
 
-router.get('/email_list', function (req, res) {
-    outcomeController.getEmailAddressList(function (response) {
-        res.send(response);
-    });
-});
+// Kind of invades privacy
+// router.get('/email_list', function (req, res) {
+//     outcomeController.getEmailAddressList(function (response) {
+//         res.send(response);
+//     });
+// });
 
 router.get('/', function (req, res) {
     outcomeController.getOutcomeList(function (response) {

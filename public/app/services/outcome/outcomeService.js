@@ -1,8 +1,10 @@
-trolleyApp.service('outcomeService', ['$http', 
-    function ($http) {
-        
+trolleyApp.service('outcomeService', ['$http', '$location',
+    function ($http, $location) {
+
+        const host = $location.protocol() + '://' + $location.host() + ':' + $location.port();
+
         var getOutcomesForYear = function (year, successHandler, errorHandler) {
-            $http.get('http://localhost:3000/api/outcome').then(function (response) {
+            $http.get(host + '/api/outcome').then(function (response) {
                 if (response.data.hasError) {
                     errorHandler(response.data.message);
                 } else {
@@ -18,7 +20,7 @@ trolleyApp.service('outcomeService', ['$http',
         };
         
         var updateOutcome = function (outcomeInfo, successHandler, errorHandler) {
-            $http.post('http://localhost:3000/api/outcome', outcomeInfo).then(function (response) {
+            $http.post(host + '/api/outcome', outcomeInfo).then(function (response) {
                 if (response.data.hasError) {
                     errorHandler(response.data.message);
                 } else {
