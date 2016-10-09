@@ -9,20 +9,24 @@
 </head>
 <body ng-app="trolleyApp">
 
-    <div ng-view></div>
+    <ng-view></ng-view>
 
-    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 
-    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
-    <script type="text/javascript" src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
 
-    <script type="text/javascript" src="app.module.js"></script>
-    <script type="text/javascript" src="app.routes.js"></script>
-    <script type="text/javascript" src="app/services/outcome/outcomeService.js"></script>
-    <script type="text/javascript" src="app/components/landing/landingController.js"></script>
-    <script type="text/javascript" src="app/components/bet/betController.js"></script>
-    <script type="text/javascript" src="app/components/results/resultsController.js"></script>
+    <script src="app.module.js"></script>
+    <script src="app.routes.js"></script>
+    <script src="app/components/shared/common.header.directive.js"></script>
+    <script src="app/components/shared/common.panel.directive.js"></script>
+    <script src="app/components/results/result.card.directive.js"></script>
+    <script src="app/services/outcome/outcomeService.js"></script>
+    <script src="app/components/landing/landingController.js"></script>
+    <script src="app/components/bet/betController.js"></script>
+    <script src="app/components/results/resultsController.js"></script>
+
 </body>
 </html>

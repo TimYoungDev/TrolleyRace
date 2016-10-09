@@ -1,10 +1,10 @@
 "use strict"
 var express = require('express');
 var router = express.Router();
-var trolleyRaceDb = require('../../app.services/database/trolleyRaceDb')();
+var trolleyRaceDb = require('../../server.services/database/trolleyRaceDb')();
 var outcomeController = require('./outcomeController')(trolleyRaceDb);
 
-// Kind of invades privacy
+// Invades privacy
 // router.get('/email_list', function (req, res) {
 //     outcomeController.getEmailAddressList(function (response) {
 //         res.send(response);

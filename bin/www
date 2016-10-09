@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../server/server');
 var debug = require('debug')('TrolleyRace:server');
 var http = require('http');
 
@@ -12,10 +12,10 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.OPENSHIFT_NODEJS_PORT || '3000');
+var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-var ip_address = process.env.OPENSHIFT_NODEJS_ID || '127.0.0.1';
+var ip_address = '127.0.0.1';
 
 /**
  * Create HTTP server.

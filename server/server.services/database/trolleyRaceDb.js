@@ -5,9 +5,6 @@ var trolleyRaceDb = function () {
     const db_name = 'race';
     const outcomes_table = 'outcomes';
     var db_connection_url = 'mongodb://localhost:27017/' + db_name;
-    if (process.env.OPENSHIFT_MONGODB_DB_URL) {
-        db_connection_url = process.env.OPENSHIFT_MONGODB_DB_URL + db_name;
-    }
 
     /**
      * Returns a list of all outcomes currently in the Outcome table.

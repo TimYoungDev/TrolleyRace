@@ -4,10 +4,24 @@ trolleyApp.controller('resultsController', ['$scope', '$routeParams', 'outcomeSe
         $scope.currentYear = new Date().getFullYear();
 
         var successHandler = function (data) {
-            $scope.outcomes = data;
+            //$scope.outcomes = data;
+            $scope.outcomes = [
+                {
+                    name: "My Super-long name goes here",
+                    winner: "Trolley",
+                    comments: "AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstu vwxyzAbcdefgAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz"
+                }
+            ];
         };
         var errorHandler = function (error) {
-            $scope.outcomes = [];
+            $scope.outcomes = [
+                {
+                    name: "My Super-long name goes here",
+                    winner: "Trolley",
+                    comments: "AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz"
+                }
+
+            ];
         };
         outcomeService.getOutcomesForYear($scope.year, successHandler, errorHandler);
     }

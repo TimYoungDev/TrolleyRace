@@ -35,3 +35,14 @@ h2 {
 .v-center {
     margin-top:7%;
 }
+
+.result-panel {
+    min-width: 300px;
+    max-width: 800px;
+    word-wrap: break-word;
+}
+
+.result-img {
+    max-width: 95%;
+    max-height: 95%;
+}
