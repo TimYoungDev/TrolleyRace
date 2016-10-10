@@ -6,19 +6,22 @@
 
     <common-panel>
         <form name="betForm" ng-submit="submitForm(betForm.$valid)" novalidate>
-
             <div class="help-block has-error" ng-if="errorText != null">
                 <h3>There was as error: {{errorText}}</h3>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': betForm.name.$touched && betForm.name.$invalid }">
-                <label>Name/Alias</label>
-                <input class="form-control" type="text" name="name" ng-model="betinfo.name" required ng-maxlength="20" />
-                <div class="help-block" ng-messages="betForm.name.$error">
-                    <p ng-message="required">A name or alias is required</p>
-                    <p ng-message="maxlength">Name/Alias is too long (20 char max)</p>
-                </div>
+            <div class="form-group">
+                <label>Name: {{betinfo.name}}</label>
+                <google-signin-button button-id="google-signin" options="options" "></google-signin-button>
             </div>
+            <!--<div class="form-group" ng-class="{ 'has-error': betForm.name.$touched && betForm.name.$invalid }">-->
+                <!--<label>Alias</label>-->
+                <!--<input class="form-control" type="text" name="alias" ng-model="betinfo.alias" required ng-maxlength="20" />-->
+                <!--<div class="help-block" ng-messages="betForm.name.$error">-->
+                    <!--<p ng-message="required">A name or alias is required</p>-->
+                    <!--<p ng-message="maxlength">Name/Alias is too long (20 char max)</p>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="form-group" ng-class="{ 'has-error': betForm.winner.$touched && betForm.winner.$invalid }">
                 <label>Who's going to win?</label>

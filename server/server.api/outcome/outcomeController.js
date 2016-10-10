@@ -1,6 +1,6 @@
 "use strict";
 
-var outcomeController = function (trolleyRaceDb) {
+var outcomeController = function (trolleyRaceDb, googleAuth) {
 
     /**
      * Gets a list of all email addresses.
@@ -59,14 +59,18 @@ var outcomeController = function (trolleyRaceDb) {
             return;
         }
 
-        outcome.email = outcome.email.toLowerCase();
-        trolleyRaceDb.updateOutcome(outcome, function (error, result) {
-            if (error) {
-                responseHandler({hasError: true, message: error});
-                return;
-            }
-            
-            responseHandler({hasError: false, data: result});
+        googleAuth.verifyToken(outcome.id_token, function (response) {
+            if (!response.isValid) { return;}
+
+            outcome.email = outcome.email.toLowerCase();
+            trolleyRaceDb.updateOutcome(outcome, function (error, result) {
+                if (error) {
+                    responseHandler({hasError: true, message: error});
+                    return;
+                }
+
+                responseHandler({hasError: false, data: result});
+            });
         });
     };
         
