@@ -1,16 +1,13 @@
+var config = require('../config');
 var https = require('https');
 
 var googleOAuth = function () {
 
-    // googleEndpoint = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=XYZ123';
-    var appId = '93527631113-ieg03tp98qn0m3nd8j4gurcd87thmenf.apps.googleusercontent.com';
-
     var getTokenInfo = function (idToken, dataCallback, errorCallback) {
-        var options = {
-            host: 'www.googleapis.com',
-            path: '/oauth2/v3/tokeninfo?id_token=' + idToken,
-            method: 'GET'
-        };
+        var options = { };
+        options.host = config.googleAuth.host;
+        options.path = config.googleAuth.path + idToken;
+        options.method = 'GET';
 
         console.log(options);
 
@@ -43,7 +40,7 @@ var googleOAuth = function () {
         };
 
         var successHandler = function (response) {
-            if (response.aud === appId) {
+            if (response.aud === config.googleAuth.appId) {
                 returnData.isValid = true;
                 returnData.name = response.name;
                 returnData.email = response.email;

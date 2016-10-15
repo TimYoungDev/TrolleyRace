@@ -2,26 +2,38 @@
 
 var outcomeController = function (trolleyRaceDb, googleAuth) {
 
-    /**
-     * Gets a list of all email addresses.
-     * 
-     * @param responseHandler function (response)
-     *  response: {hasError: (true|false), message: (error only), data: (success only)} 
-     */
-    var getEmailList = function (responseHandler) {
-        trolleyRaceDb.getOutcomeList(function (error, result) {
-            if (error) {
-                responseHandler({hasError: true, message: error});
-                return;
-            }
-            
-            var i, addresses = [];
-            for (i = 0; i < result.length; i += 1) {
-                addresses.push(result[i].email.toLowerCase());
-            }
-            
-            responseHandler({hasError: false, data: addresses});
-        });
+    function outcomeResponse(hasError, message, data) {
+        this.hasError = hasError;
+        this.message = message;
+        this.data = data;
+    };
+
+    function verifyOutcome(outcome) {
+
+        // token_id
+        if (!outcome.hasOwnProperty('token_id') || null == outcome.token_id) {
+            return new outcomeResponse(true, 'token_id cannot be undefined or null', null);
+        }
+
+        // Alias if it exists
+        if (outcome.hasOwnProperty('alias') && outcome.alias.length > 20) {
+            return new outcomeResponse(true, 'alias is too long (20 max)', null);
+        }
+
+        // Winner
+        if (!outcome.hasOwnProperty('winner')) {
+            return new outcomeResponse(true, 'winner cannot be undefined', null);
+        }
+        if ( !(outcome.winner.toLowerCase() === 'tim' || outcome.winner.toLowerCase() === 'trolley')) {
+            return new outcomeResponse(true, 'winner must be either tim or trolley', null);
+        }
+
+        // Comments if it exists
+        if (outcome.hasOwnProperty('comments') && outcome.comments.length > 300) {
+            return new outcomeResponse(true, 'comments is too long (300 max)', null);
+        }
+
+        return null;
     };
 
     /**
@@ -31,13 +43,9 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
      *  response: {hasError: (true|false), message: (error only), data: (success only)}
      */
     var getOutcomeList = function (responseHandler) {
-        trolleyRaceDb.getOutcomeList(function (error, result) {
-            if (error) {
-                responseHandler({hasError: true, message: error});
-                return;
-            }
-            
-            responseHandler({hasError: false, data: result});
+        trolleyRaceDb.getOutcomeList(function (dbResult) {
+            var response = new outcomeResponse(dbResult.hasError, dbResult.message, dbResult.data);
+            responseHandler(response);
         });
     };
 
@@ -49,33 +57,37 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
      *  response: {hasError: (true|false), message: (error only), data: (success only)}
      */
     var updateOutcome = function (outcome, responseHandler) {
-        if (outcome.name.length > 20) {
-            responseHandler({hasError: true, message: 'name is too long (20 max)'});
-            return;
-        }
-        
-        if (outcome.comments.length > 300) {
-            responseHandler({hasError: true, message: 'comments are too long (300 max)'});
+        var verifyResult = verifyOutcome(outcome);
+        if (null != verifyResult) {
+            responseHandler(verifyResult);
             return;
         }
 
         googleAuth.verifyToken(outcome.id_token, function (response) {
-            if (!response.isValid) { return;}
+            if (!response.isValid) {
+                responseHandler(new outcomeResponse(true, 'Invalid OAuth2 token', null));
+                return;
+            }
 
-            outcome.email = outcome.email.toLowerCase();
-            trolleyRaceDb.updateOutcome(outcome, function (error, result) {
-                if (error) {
-                    responseHandler({hasError: true, message: error});
+            outcome.email = response.email.toLowerCase();
+            outcome.name = response.name;
+            trolleyRaceDb.updateOutcome(outcome, function (dbResult) {
+                if (dbResult.hasError) {
+                    responseHandler(new outcomeResponse(true, dbResult.message, null));
                     return;
                 }
 
-                responseHandler({hasError: false, data: result});
+                if (dbResult.data.result.nModified === 0) {
+                    responseHandler(new outcomeResponse(true, 'The user was not found', null));
+                    return;
+                }
+
+                responseHandler(new outcomeResponse(false, null, dbResult.data));
             });
         });
     };
         
     return {
-        getEmailAddressList: getEmailList,
         getOutcomeList: getOutcomeList,
         updateOutcome: updateOutcome
     }

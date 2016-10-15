@@ -1,22 +1,14 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
-var childProcess = require('child_process');
+var jasmine = require('gulp-jasmine');
 
 var serverFiles = ['*.js', 'server/**/*.js'];
-var runExec = function (command) {
-    return function(callback) {
-        childProcess.exec(command, function(err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
-            callback(err);
-        })
-    }
 
-};
+gulp.task('test-server', function (){
+    gulp.src('./test/server/**/*spec.js').pipe(jasmine());
+});
 
-gulp.task('start-mongo', runExec('start mongod'));
-
-gulp.task('dev-server', [], function() {
+gulp.task('server', [], function() {
     var options = {
         script: './bin/www',
         delayTime: 1,
