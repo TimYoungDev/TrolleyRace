@@ -1,3 +1,5 @@
+"use strict";
+
 trolleyApp.directive('resultCard', function () {
     return {
         restrict: 'E',

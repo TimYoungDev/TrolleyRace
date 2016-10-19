@@ -1,18 +1,20 @@
-trolleyApp.directive('commonPanel', function () {
-   return {
-       restrict: 'E',
-       templateUrl: 'app/components/shared/common.panel.html',
-       transclude: true,
-       scope: {
-           headerText: '@header'
-       },
-       controller: function ($scope) {
-           $scope.showHeader = false;
+"use strict";
 
-           if ($scope.headerText) {
-               $scope.showHeader = true;
-           }
-       }
+trolleyApp.directive('commonPanel', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'app/components/shared/common.panel.html',
+        transclude: true,
+        scope: {
+            headerText: '@header'
+        },
+        controller: function ($scope) {
+            $scope.showHeader = false;
+
+            if ($scope.headerText) {
+                $scope.showHeader = true;
+            }
+        }
        // link: function (scope, element, attr) {
        //     scope.showHeader = false;
        //     scope.headerText = '';
@@ -22,5 +24,5 @@ trolleyApp.directive('commonPanel', function () {
        //         scope.headerText = attr['header'];
        //     }
        // }
-   };
+    };
 });

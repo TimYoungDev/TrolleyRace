@@ -1,10 +1,12 @@
+"use strict";
+
 var config = require('../config');
 var https = require('https');
 
 var googleOAuth = function () {
 
     var getTokenInfo = function (idToken, dataCallback, errorCallback) {
-        var options = { };
+        var options = {};
         options.host = config.googleAuth.host;
         options.path = config.googleAuth.path + idToken;
         options.method = 'GET';

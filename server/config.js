@@ -1,4 +1,6 @@
-var config = { };
+"use strict";
+
+var config = {};
 
 config.db = {
     name: 'trolley_race',

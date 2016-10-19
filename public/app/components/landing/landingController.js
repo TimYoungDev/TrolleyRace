@@ -1,4 +1,3 @@
-trolleyApp.controller('landingController', ['$scope',
-    function ($scope) {
-    }
-]);
+"use strict";
+
+trolleyApp.controller('landingController', ['$scope', function ($scope) {}]);

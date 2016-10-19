@@ -1,8 +1,9 @@
+"use strict";
+
 trolleyApp.controller('outcomeController', ['$scope', '$location', 'outcomeService',
     function ($scope, $location, outcomeService) {
-        
         $scope.errorText = null;
-        $scope.betinfo = { };
+        $scope.betinfo = {};
         // $scope.betinfo = { // Seed for my sanity
         //     alias: "Timmy",
         //     winner: "Tim",
@@ -21,9 +22,11 @@ trolleyApp.controller('outcomeController', ['$scope', '$location', 'outcomeServi
         };
 
         $scope.submitForm = function (isValid) {
-            if (!isValid) return;
+            if (!isValid) {
+                return;
+            }
 
-            outcomeService.updateOutcome($scope.betinfo, function(response) {
+            outcomeService.updateOutcome($scope.betinfo, function (response) {
                 if (response.hasError) {
                     $scope.errorText = response.message;
                 } else {

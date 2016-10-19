@@ -6,12 +6,12 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
         this.hasError = hasError;
         this.message = message;
         this.data = data;
-    };
+    }
 
     function verifyOutcome(outcome) {
 
         // id_token
-        if (!outcome.hasOwnProperty('id_token') || null == outcome.id_token) {
+        if (!outcome.hasOwnProperty('id_token') || null === outcome.id_token) {
             return new outcomeResponse(true, 'id_token cannot be undefined or null', null);
         }
 
@@ -24,7 +24,7 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
         if (!outcome.hasOwnProperty('winner')) {
             return new outcomeResponse(true, 'winner cannot be undefined', null);
         }
-        if ( !(outcome.winner.toLowerCase() === 'tim' || outcome.winner.toLowerCase() === 'trolley')) {
+        if (!(outcome.winner.toLowerCase() === 'tim' || outcome.winner.toLowerCase() === 'trolley')) {
             return new outcomeResponse(true, 'winner must be either tim or trolley', null);
         }
 
@@ -34,7 +34,7 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
         }
 
         return null;
-    };
+    }
 
     /**
      * Gets a list of all outcomes.
@@ -51,14 +51,13 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
 
     /**
      * Updates an outcome in the database.
-     * 
      * @param outcome The outcome to update.
      * @param responseHandler function (response)
      *  response: {hasError: (true|false), message: (error only), data: (success only)}
      */
     var updateOutcome = function (outcome, responseHandler) {
         var verifyResult = verifyOutcome(outcome);
-        if (null != verifyResult) {
+        if (null !== verifyResult) {
             responseHandler(verifyResult);
             return;
         }
@@ -86,11 +85,10 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
             });
         });
     };
-        
     return {
         getOutcomeList: getOutcomeList,
         updateOutcome: updateOutcome
-    }
+    };
 };
 
 module.exports = outcomeController;

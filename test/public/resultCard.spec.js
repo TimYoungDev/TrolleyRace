@@ -1,3 +1,4 @@
+"use strict";
 
 describe('ResultCard', function () {
     var el;
@@ -5,7 +6,7 @@ describe('ResultCard', function () {
     beforeEach(module('trolleyApp'));
     beforeEach(module('app/components/results/result.card.html'));
 
-    beforeEach(inject(function($compile, $rootScope) {
+    beforeEach(inject(function ($compile, $rootScope) {
         var scope = $rootScope.$new();
         el = angular.element('<result-card name="Anon" winner="Tim" comments="hello"></result-card>');
         $compile(el)(scope);

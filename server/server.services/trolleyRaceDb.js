@@ -1,3 +1,5 @@
+"use strict";
+
 var config = require('../config');
 var mongoClient = require('mongodb').MongoClient;
 
@@ -16,7 +18,7 @@ var trolleyRaceDb = function () {
         this.hasError = hasError;
         this.message = message;
         this.data = data;
-    };
+    }
 
     /**
      * Database storage object template.
@@ -32,7 +34,7 @@ var trolleyRaceDb = function () {
         this.alias = alias;
         this.winner = winner;
         this.comments = comments;
-    };
+    }
 
     function errorMessage(error) {
         var message = null;
@@ -43,7 +45,6 @@ var trolleyRaceDb = function () {
     }
     /**
      * Returns a list of all outcomes currently in the Outcome table.
-     * 
      * @param resultCallback Result handler function.
      */
     var getOutcomeList = function (resultCallback) {
@@ -57,16 +58,14 @@ var trolleyRaceDb = function () {
                 var collection = db.collection(outcomes_table);
                 collection.find({}).toArray(function (error, result) {
                     db.close();
-                    resultCallback(new databaseResult((null != error), errorMessage(error), result));
+                    resultCallback(new databaseResult((null !== error), errorMessage(error), result));
                 });
             }
         });
     };
-    
     /**
      * Finds an outcome by the email and updates the outcome
      * info.
-     *
      * @param outcome The outcome to be updated
      * @param resultCallback Result handler function.
      */
@@ -79,9 +78,9 @@ var trolleyRaceDb = function () {
                 resultCallback(new databaseResult(true, errorMessage(error), null));
             } else {
                 var collection = db.collection(outcomes_table);
-                collection.updateOne({email: outcome.email}, {$set: outcome}, function (error, updateResult) {
+                collection.updateOne({email: outcome.email}, {'$set': outcome}, function (error, updateResult) {
                     db.close();
-                    resultCallback(new databaseResult((null != error), errorMessage(error), updateResult));
+                    resultCallback(new databaseResult((null !== error), errorMessage(error), updateResult));
                 });
             }
         });
@@ -90,7 +89,7 @@ var trolleyRaceDb = function () {
     return {
         getOutcomeList: getOutcomeList,
         updateOutcome: updateOutcome,
-        test: { resultTemplate: databaseResult }
+        test: {resultTemplate: databaseResult}
     };
 };
 
