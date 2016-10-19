@@ -1,4 +1,4 @@
-trolleyApp.controller('landingController', ['$scope', 'outcomeService',
-    function ($scope, outcomeService) {
+trolleyApp.controller('landingController', ['$scope',
+    function ($scope) {
     }
 ]);

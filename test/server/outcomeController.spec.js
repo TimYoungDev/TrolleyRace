@@ -1,5 +1,4 @@
 var outcome = require('../../server/server.api/outcome/outcomeController');
-
 var db = require('../../server/server.services/trolleyRaceDb')();
 
 describe ('OutcomeController', function () {
@@ -77,26 +76,26 @@ describe ('OutcomeController', function () {
 
         it ('Should return missing token error', function (done) {
             var outcome = { alias: 'abc', winner: 'Tim', comments: 'hello' };
-            runAndVerify(outcome, 'token_id cannot be undefined or null', done);
+            runAndVerify(outcome, 'id_token cannot be undefined or null', done);
         });
 
         it ('Should return alias too long error', function (done) {
-            var outcome = {token_id: 'abc123', alias: 'abcdefghijklmnopqrstu', winner:'tim', comments: 'hello'};
+            var outcome = {id_token: 'abc123', alias: 'abcdefghijklmnopqrstu', winner:'tim', comments: 'hello'};
             runAndVerify(outcome, 'alias is too long (20 max)', done);
         });
 
         it ('Should return missing winner error', function (done) {
-            var outcome = {token_id: 'abc123', alias: 'abcd', comments: 'hello'};
+            var outcome = {id_token: 'abc123', alias: 'abcd', comments: 'hello'};
             runAndVerify(outcome, 'winner cannot be undefined', done);
         });
 
         it ('Should return incorrect winner error', function (done) {
-           var outcome = { token_id: 'abc123', alias:'abcd', winner: 'Blah', comments: 'hello'};
+           var outcome = { id_token: 'abc123', alias:'abcd', winner: 'Blah', comments: 'hello'};
             runAndVerify(outcome, 'winner must be either tim or trolley', done);
         });
 
         it ('Should return comments too long error', function (done) {
-            var outcome = { token_id: 'abc123', alias:'abcd', winner: 'trolley',
+            var outcome = { id_token: 'abc123', alias:'abcd', winner: 'trolley',
                 comments:   'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXY' +
                             'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXY' +
                             'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXY' +
@@ -107,27 +106,27 @@ describe ('OutcomeController', function () {
         });
 
         it ('Should return an invalid OAuth2 error', function (done) {
-            var outcome = { token_id: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
+            var outcome = { id_token: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
             googMock.responseData = { isValid: false, email: 'user@stuff.net', name: 'user name'};
             runAndVerify(outcome, 'Invalid OAuth2 token', done);
         });
 
         it ('Should return a generic db error', function (done) {
-            var outcome = { token_id: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
+            var outcome = { id_token: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
             googMock.responseData = { isValid: true, email: 'user@stuff.net', name: 'user name'};
             dbMock.responseData = { hasError: true, message: 'Generic Error', data: null };
             runAndVerify(outcome, 'Generic Error', done);
         });
 
         it ('Should return a user not found error', function (done) {
-            var outcome = { token_id: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
+            var outcome = { id_token: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
             googMock.responseData = { isValid: true, email: 'user@stuff.net', name: 'user name'};
             dbMock.responseData = { hasError: false, message: null, data: { result: { nModified: 0 }} };
             runAndVerify(outcome, 'The user was not found', done);
         });
 
         it ('Should return a successful save', function (done) {
-            var outcome = { token_id: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
+            var outcome = { id_token: 'abc123', alias:'abcd', winner: 'tim', comments: 'hello'};
             googMock.responseData = { isValid: true, email: 'user@stuff.net', name: 'user name'};
             dbMock.responseData = { hasError: false, message: null, data: { result: { nModified: 1 }} };
 

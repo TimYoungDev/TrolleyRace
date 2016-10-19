@@ -1,13 +1,12 @@
-trolleyApp.controller('betController', ['$scope', '$location', 'outcomeService',
+trolleyApp.controller('outcomeController', ['$scope', '$location', 'outcomeService',
     function ($scope, $location, outcomeService) {
         
         $scope.errorText = null;
         $scope.betinfo = { };
         // $scope.betinfo = { // Seed for my sanity
-        //     name: "Tim Young",
+        //     alias: "Timmy",
         //     winner: "Tim",
         //     comments: "Stuff",
-        //     email: "tim@stuff.com"
         // };
 
         $scope.options = {
@@ -24,15 +23,13 @@ trolleyApp.controller('betController', ['$scope', '$location', 'outcomeService',
         $scope.submitForm = function (isValid) {
             if (!isValid) return;
 
-            var successHandler = function () {
-
-                $location.path('results/' + new Date().getFullYear());
-            };
-            var errorHandler = function (error) {
-                $scope.errorText = error;
-            };
-
-            outcomeService.updateOutcome($scope.betinfo, successHandler, errorHandler);
+            outcomeService.updateOutcome($scope.betinfo, function(response) {
+                if (response.hasError) {
+                    $scope.errorText = response.message;
+                } else {
+                    $location.path('results/2016');
+                }
+            });
         };
     }
 ]);

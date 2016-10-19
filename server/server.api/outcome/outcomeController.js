@@ -10,9 +10,9 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
 
     function verifyOutcome(outcome) {
 
-        // token_id
-        if (!outcome.hasOwnProperty('token_id') || null == outcome.token_id) {
-            return new outcomeResponse(true, 'token_id cannot be undefined or null', null);
+        // id_token
+        if (!outcome.hasOwnProperty('id_token') || null == outcome.id_token) {
+            return new outcomeResponse(true, 'id_token cannot be undefined or null', null);
         }
 
         // Alias if it exists

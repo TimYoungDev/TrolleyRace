@@ -90,10 +90,7 @@ var trolleyRaceDb = function () {
     return {
         getOutcomeList: getOutcomeList,
         updateOutcome: updateOutcome,
-        test: {
-            resultTemplate: databaseResult,
-            databaseTemplate: databaseObj
-        }
+        test: { resultTemplate: databaseResult }
     };
 };
 

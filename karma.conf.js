@@ -10,13 +10,18 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'sinon'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'test/public/jasmine/src/**/*.js',
-      'test/public/jasmine/spec/**/*.js'
+      'public/bower_components/angular/angular.js',
+      'public/bower_components/angular-route/angular-route.js',
+      'public/bower_components/angular-messages/angular-messages.js',
+      'public/bower_components/angular-mocks/angular-mocks.js',
+      'public/app/**/*.js',
+      'public/app/components/**/*.html',
+      'test/public/**/*spec.js',
     ],
 
 
@@ -28,8 +33,12 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      '**/*.html':'ng-html2js'
     },
 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'public/'
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -58,6 +67,12 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Chrome'],
 
+    plugins: [
+        'karma-chrome-launcher',
+        'karma-jasmine',
+        'karma-sinon',
+        'karma-ng-html2js-preprocessor'
+    ],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
