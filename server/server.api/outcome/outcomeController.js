@@ -1,36 +1,47 @@
 "use strict";
 
-var outcomeController = function (trolleyRaceDb, googleAuth) {
+var OutcomeResponse = require("../../server.services/trolleyRaceDbResult");
 
-    function outcomeResponse(hasError, message, data) {
-        this.hasError = hasError;
-        this.message = message;
-        this.data = data;
+class OutcomeVerifyRule {
+
+    constructor(message, verifyFunc) {
+        this._message = message;
+        this._verifyFunc = verifyFunc;
     }
 
-    function verifyOutcome(outcome) {
+    verify(outcome) {
+        return this._verifyFunc(outcome);
+    }
 
-        // id_token
-        if (!outcome.hasOwnProperty('id_token') || null === outcome.id_token) {
-            return new outcomeResponse(true, 'id_token cannot be undefined or null', null);
-        }
+    get message() { return this._message; }
+}
 
-        // Alias if it exists
-        if (outcome.hasOwnProperty('alias') && outcome.alias.length > 20) {
-            return new outcomeResponse(true, 'alias is too long (20 max)', null);
-        }
+class OutcomeController {
 
-        // Winner
-        if (!outcome.hasOwnProperty('winner')) {
-            return new outcomeResponse(true, 'winner cannot be undefined', null);
-        }
-        if (!(outcome.winner.toLowerCase() === 'tim' || outcome.winner.toLowerCase() === 'trolley')) {
-            return new outcomeResponse(true, 'winner must be either tim or trolley', null);
-        }
+    constructor(trolleyRaceDb, googleAuth) {
+        this._trolleyRaceDb = trolleyRaceDb;
+        this._googleAuth = googleAuth;
+    }
 
-        // Comments if it exists
-        if (outcome.hasOwnProperty('comments') && outcome.comments.length > 300) {
-            return new outcomeResponse(true, 'comments is too long (300 max)', null);
+    verifyOutcome(outcome) {
+
+        let rules = [
+            new OutcomeVerifyRule("id_token cannot be undefined or null",
+                (obj) => { return obj.hasOwnProperty("id_token") && null != obj.id_token; } ),
+            new OutcomeVerifyRule("alias is too long (20 max)",
+                (obj) => { return obj.hasOwnProperty("alias") && obj.alias.length <= 20; } ),
+            new OutcomeVerifyRule("winner cannot be undefined",
+                (obj) => { return obj.hasOwnProperty("winner"); } ),
+            new OutcomeVerifyRule("winner must be either tim or trolley",
+                (obj) => { return obj.winner.toLowerCase() === "tim" || obj.winner.toLowerCase() === "trolley"; }),
+            new OutcomeVerifyRule("comments is too long (300 max)",
+                (obj) => { return obj.hasOwnProperty("comments") && obj.comments.length <= 300; })
+        ];
+
+        for (let rule of rules) {
+            if (!rule.verify(outcome)) {
+                return new OutcomeResponse(true, rule.message, null);
+            }
         }
 
         return null;
@@ -42,12 +53,10 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
      * @param responseHandler function (response)
      *  response: {hasError: (true|false), message: (error only), data: (success only)}
      */
-    var getOutcomeList = function (responseHandler) {
-        trolleyRaceDb.getOutcomeList(function (dbResult) {
-            var response = new outcomeResponse(dbResult.hasError, dbResult.message, dbResult.data);
-            responseHandler(response);
-        });
-    };
+    getOutcomeList(responseHandler) {
+        this._trolleyRaceDb.getOutcomeList((dbResult) =>
+            responseHandler(new OutcomeResponse(dbResult.hasError, dbResult.message, dbResult.data)) );
+    }
 
     /**
      * Updates an outcome in the database.
@@ -55,40 +64,37 @@ var outcomeController = function (trolleyRaceDb, googleAuth) {
      * @param responseHandler function (response)
      *  response: {hasError: (true|false), message: (error only), data: (success only)}
      */
-    var updateOutcome = function (outcome, responseHandler) {
-        var verifyResult = verifyOutcome(outcome);
-        if (null !== verifyResult) {
+    updateOutcome(outcome, responseHandler) {
+        let verifyResult = this.verifyOutcome(outcome);
+        if (null !== this.verifyOutcome(outcome)) {
             responseHandler(verifyResult);
             return;
         }
 
-        googleAuth.verifyToken(outcome.id_token, function (response) {
+        this._googleAuth.verifyToken(outcome.id_token, (response) => {
             if (!response.isValid) {
-                responseHandler(new outcomeResponse(true, 'Invalid OAuth2 token', null));
+                responseHandler(new OutcomeResponse(true, "Invalid OAuth2 token", null));
                 return;
             }
 
             outcome.email = response.email.toLowerCase();
             outcome.name = response.name;
-            trolleyRaceDb.updateOutcome(outcome, function (dbResult) {
+            this._trolleyRaceDb.updateOutcome(outcome, (dbResult) => {
+
                 if (dbResult.hasError) {
-                    responseHandler(new outcomeResponse(true, dbResult.message, null));
+                    responseHandler(new OutcomeResponse(true, dbResult.message, null));
                     return;
                 }
 
                 if (dbResult.data.result.nModified === 0) {
-                    responseHandler(new outcomeResponse(true, 'The user was not found', null));
+                    responseHandler(new OutcomeResponse(true, "The user was not found", null));
                     return;
                 }
 
-                responseHandler(new outcomeResponse(false, null, dbResult.data));
+                responseHandler(new OutcomeResponse(false, null, dbResult.data));
             });
         });
-    };
-    return {
-        getOutcomeList: getOutcomeList,
-        updateOutcome: updateOutcome
-    };
-};
+    }
+}
 
-module.exports = outcomeController;
+module.exports = OutcomeController;

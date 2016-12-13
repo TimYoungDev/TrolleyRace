@@ -2,18 +2,20 @@
 
 var express = require('express');
 var router = express.Router();
-var trolleyRaceDb = require('../../server.services/trolleyRaceDb')();
-var googleAuth = require('../../server.services/googleOAuth')();
-var outcomeController = require('./outcomeController')(trolleyRaceDb, googleAuth);
+var TrolleyRaceDb = require('../../server.services/trolleyRaceDb');
+var GoogleAuth = require('../../server.services/googleOAuth');
+var OutcomeController = require('./outcomeController');
 
 router.get('/', function (req, res) {
-    outcomeController.getOutcomeList(function (response) {
+    let controller = new OutcomeController(new TrolleyRaceDb(), new GoogleAuth());
+    controller.getOutcomeList(function (response) {
         res.send(response);
     });
 });
 
 router.post('/', function (req, res) {
-    outcomeController.updateOutcome(req.body, function (response) {
+    let controller = new OutcomeController(new TrolleyRaceDb(), new GoogleAuth());
+    controller.updateOutcome(req.body, function (response) {
         res.send(response);
     });
 });

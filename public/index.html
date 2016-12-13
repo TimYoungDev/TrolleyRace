@@ -2,35 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-signin-client_id" content="93527631113-ieg03tp98qn0m3nd8j4gurcd87thmenf.apps.googleusercontent.com">
-    <title>Tim Vs. Machine</title>
-
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="app/assets/css/app.css" />
+    <title>Tim VS. Machine</title>
 </head>
-<body ng-app="trolleyApp">
+<body>
+    <app>
+        <div style="text-align: center; margin-top: 100px;">
+            Loading...
+        </div>
+    </app>
 
-    <ng-view></ng-view>
-
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-messages/angular-messages.js"></script>
-
-    <script src="app/app.module.js"></script>
-    <script src="app/app.routes.js"></script>
-    <script src="app/components/shared/common.header.directive.js"></script>
-    <script src="app/components/shared/common.panel.directive.js"></script>
-    <script src="app/components/shared/google.signin.directive.js"></script>
-    <script src="app/components/results/result.card.directive.js"></script>
-    <script src="app/services/outcomeService.js"></script>
-    <script src="app/components/landing/landingController.js"></script>
-    <script src="app/components/outcome/outcomeController.js"></script>
-    <script src="app/components/results/resultsController.js"></script>
-
+    <script src="./main.js" ></script>
+    <script src="./vendor.js"></script>
 </body>
 </html>
