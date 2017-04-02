@@ -26,6 +26,16 @@ class GoogleOAuth {
     verifyToken(idToken, verifyCallback) {
         let returnData = { isValid: false, name: "", email: "" };
 
+        // Check to see if we're using auth
+        // return true if we are not
+        if (config.googleAuth.useAuth != true) {
+            returnData.isValid = true;
+            returnData.name = "Fake User";
+            returnData.email = "FakeUser@email.net";
+            verifyCallback(returnData);
+            return;
+        }
+
         this.getTokenInfo(idToken,
             (response) => {
                 if (response.aud === config.googleAuth.appId) {

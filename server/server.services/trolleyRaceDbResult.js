@@ -8,13 +8,13 @@ class DatabaseResult {
      * @param data Result data if successful
      */
     constructor (hasError, message, data) {
-        this._hasError = hasError;
-        this._message = message;
-        this._data = data;
+        this.hasError = hasError;
+        this.message = message;
+        this.data = data;
     }
-    get hasError() { return this._hasError; }
-    get message() { return this._message; }
-    get data() { return this._data; }
+    get getHasError() { return this.hasError; }
+    get getMessage() { return this.message; }
+    get getData() { return this.data; }
 }
 
 module.exports = DatabaseResult;

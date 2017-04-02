@@ -13,13 +13,14 @@ class MongoConfig {
 
 class GoogleAuthConfig {
     constructor() {
-        this.auth_appId = "93527631113-ieg03tp98qn0m3nd8j4gurcd87thmenf.apps.googleusercontent.com";
+        this.auth_appId = "blah.apps.googleusercontent.com";
         this.auth_host = "www.googleapis.com";
         this.auth_path = "/oauth2/v3/tokeninfo?id_token=";
     }
     get appId() { return this.auth_appId; }
     get host() { return this.auth_host; }
     get path() {return this.auth_path; }
+    get useAuth() { return false; } // enable/disable auth check
 }
 
 class Config {
